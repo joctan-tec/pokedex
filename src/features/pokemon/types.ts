@@ -1,6 +1,6 @@
 // src/features/pokemon/types.ts
 
-// 1. Interfaz base común
+
 export interface BasePokemon {
   id: number;
   url: string;
@@ -9,14 +9,14 @@ export interface BasePokemon {
   officialArtwork: string;
 }
 
-// 2. Interfaz para el tipo del Pokémon
+
 export interface PokemonType {
   type: {
     name: string;
   };
 }
 
-// 3. Interfaz de información detallada
+
 export interface PokemonInformation {
   weight: number;
   height: number;
@@ -26,15 +26,13 @@ export interface PokemonInformation {
 }
 
 
-
-// 4. Interfaz completa de Pokémon
 export interface Pokemon extends BasePokemon {
   types: PokemonType[];
   information: PokemonInformation;
-  evolutions: BasePokemon[]; // reutilizamos la interfaz base para evoluciones
+  evolutions: BasePokemon[];
 }
 
-// 5. Interfaz para solo la Card (solo lo necesario)
+
 export type PokemonCardData = BasePokemon;
 
 export interface PokemonListResponse {

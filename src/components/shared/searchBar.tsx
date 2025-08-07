@@ -18,7 +18,7 @@ export function SearchBar({ onSearch, onDebouncedSearch }: SearchBarProps) {
     return () => clearTimeout(timer);
   }, [searchQuery]);
 
-  // Efecto para el debounced search
+  // Debounced search effect
   useEffect(() => {
     if (onDebouncedSearch) {
       onDebouncedSearch(debouncedQuery);
