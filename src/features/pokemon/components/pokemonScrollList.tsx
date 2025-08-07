@@ -8,11 +8,13 @@ export function PokemonScrollList({
   loaderRef,
   onClick,
   searchQuery,
+  selectedPokemon
 }: {
   pokemons: PokemonCardData[];
   loaderRef: RefObject<HTMLLIElement | null>;
   onClick?: (pokemon: PokemonCardData) => void;
   searchQuery?: string;
+  selectedPokemon?: PokemonCardData | null;
 }) {
 
   const handlePokemonClick = (pokemon: PokemonCardData) => {
@@ -24,7 +26,7 @@ export function PokemonScrollList({
     <div className="w-3/12 border-2 border-[#FF8585] rounded-lg h-full">
       <ul className="flex flex-col w-full h-full overflow-y-auto rounded-lg">
         {pokemons.map((pokemon) => (
-          <PokemonCard key={pokemon.id} pokemon={pokemon} onClick={handlePokemonClick} />
+          <PokemonCard key={pokemon.id} pokemon={pokemon} onClick={handlePokemonClick} selectedId={selectedPokemon?.id} />
         ))}
         <li ref={loaderRef} className="py-4 text-center text-sm text-white/60">
           {searchQuery !== "" ? "" : "Loading more Pokémon..."}

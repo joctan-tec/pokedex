@@ -125,6 +125,7 @@ export default function Home() {
           loaderRef={observerRef}
           onClick={handlePokemonClick}
           searchQuery={searchQuery}
+          selectedPokemon={selectedPokemon}
         />
         <PokemonInformation
           pokemon={selectedPokemon}

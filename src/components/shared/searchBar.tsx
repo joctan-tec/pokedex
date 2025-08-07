@@ -58,7 +58,7 @@ export function SearchBar({ onSearch, onDebouncedSearch }: SearchBarProps) {
     >
       <button
         onClick={toggleSearch}
-        className="p-2 transition-colors duration-200"
+        className="p-2 transition-colors duration-200 cursor-pointer"
         aria-label="Buscar"
       >
         <Image 
