@@ -113,3 +113,18 @@ A search system was built to simulate a **Full Text Search**, enabling **partial
 
 Also worth mentioning: the list of Pokémon names and IDs was extracted directly from the **PokeAPI** and processed using a **Python script** to generate a simplified file. This reduced the file size from **125KB** to just **30KB**.
 
+## Duration
+
+The project was completed in approximately **9 hours**.
+
+Distributed as follows:
+| **Duration**             | **Activity**                                      |
+|--------------------------|---------------------------------------------------|
+| 30 minutes               | Initial setup and planning                        |
+| 1 hour and 30 minutes    | Planning, research, and building the web interface|
+| 5 hours                  | Application development                           |
+| 1 hour                   | Testing, debugging, and deployment                |
+| 1 hour                   | Writing documentation and final review            |
+
+
+
