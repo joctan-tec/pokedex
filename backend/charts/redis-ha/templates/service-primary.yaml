@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "redis-ha.fullname" . }}-primary
+  labels:
+    app: {{ include "redis-ha.name" . }}
+    app.kubernetes.io/name: {{ include "redis-ha.name" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    role: primary
+spec:
+  type: ClusterIP
+  ports:
+    - port: {{ .Values.service.port }}
+      targetPort: {{ .Values.service.port }}
+      name: redis
+    - port: {{ .Values.exporter.port }}
+      targetPort: {{ .Values.exporter.port }}
+      name: metrics
+  selector:
+    app.kubernetes.io/name: {{ include "redis-ha.name" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+

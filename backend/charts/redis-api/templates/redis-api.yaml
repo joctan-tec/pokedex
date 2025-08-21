@@ -1,0 +1,57 @@
+# Deployment configuration for Redis API, CLUSTER-IP type service and exports 5000 port
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: redis-api
+    namespace: {{ .Values.namespace }}
+    labels:
+        app: redis-api
+        app.kubernetes.io/name: redis-api
+        app.kubernetes.io/instance: {{ .Release.Name }}
+spec:
+    replicas: {{ .Values.replicaCount }}
+    selector:
+        matchLabels:
+            app.kubernetes.io/name: redis-api
+            app.kubernetes.io/instance: {{ .Release.Name }}
+    template:
+        metadata:
+            labels:
+                app.kubernetes.io/name: redis-api
+                app.kubernetes.io/instance: {{ .Release.Name }}
+        spec:
+            containers:
+                - name: redis-api
+                  image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+                  imagePullPolicy: {{ .Values.image.pullPolicy }}
+                  ports:
+                    - containerPort: {{ .Values.service.port }}
+                  env:
+                    - name: REDIS_HOST
+                      value: "{{ .Values.redis.host }}.{{ .Values.redis.namespace }}.{{ .Values.redis.type }}.cluster.local"
+                    - name: REDIS_PORT
+                      value: "{{ .Values.redis.port }}"
+                    - name: REDIS_PASSWORD
+                      value: "{{ .Values.redis.password }}"
+                    - name: REDIS_USER
+                      value: "{{ .Values.redis.user }}"
+---
+apiVersion: v1
+kind: Service
+metadata:
+    name: redis-api
+    namespace: {{ .Values.namespace }}
+    labels:
+        app: redis-api
+        app.kubernetes.io/name: redis-api
+        app.kubernetes.io/instance: {{ .Release.Name }}
+spec:
+    type: {{ .Values.service.type }}
+    ports:
+        - port: {{ .Values.service.port }}
+          targetPort: {{ .Values.service.port }}
+          nodePort: {{ .Values.service.nodePort }}
+          name: http
+    selector:
+        app.kubernetes.io/name: redis-api
+        app.kubernetes.io/instance: {{ .Release.Name }}

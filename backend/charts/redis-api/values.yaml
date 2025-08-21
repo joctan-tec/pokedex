@@ -1,0 +1,25 @@
+image: 
+  repository: joctan04/redis-api
+  tag: latest
+  pullPolicy: IfNotPresent
+
+namespace: default
+
+redis:
+  namespace: monitoring
+  host: redis-ha-redis-ha-primary
+  port: 6379
+  user: redis
+  password: "redis"
+  type: svc
+
+service:
+  port: 5000
+  type: NodePort
+  nodePort: 30500
+
+replicaCount: 1
+
+
+
+resources: {}

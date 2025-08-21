@@ -1,0 +1,60 @@
+# Deployment configuration for the web application
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.config.app.name }}
+  namespace: {{ .Values.namespace }}
+  labels:
+    app: {{ .Values.config.app.name }}
+    app.kubernetes.io/name: {{ .Values.config.app.name }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ .Values.config.app.name }}
+      app.kubernetes.io/instance: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: {{ .Values.config.app.name }}
+        app.kubernetes.io/instance: {{ .Release.Name }}
+    spec:
+      containers:
+        - name: web-app
+          image: "{{ .Values.config.image.repository }}:{{ .Values.config.image.tag }}"
+          imagePullPolicy: {{ .Values.config.image.pullPolicy }}
+          ports:
+            - containerPort: {{ .Values.config.service.port }}
+          env:
+            - name: NODE_ENV
+              value: "{{ .Values.config.app.environment }}"
+            - name: APP_NAME
+              value: "{{ .Values.config.app.name }}"
+            - name: APP_VERSION
+              value: "{{ .Values.config.app.version }}"
+            - name: NEXT_PUBLIC_API_URL
+              value: "{{ .Values.config.app.apiUrl }}"
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.config.app.name }}
+  namespace: {{ .Values.namespace }}
+  labels:
+    app: {{ .Values.config.app.name }}
+    app.kubernetes.io/name: {{ .Values.config.app.name }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+spec:
+    type: {{ .Values.config.service.type }}
+    ports:
+      - port: {{ .Values.config.service.port }}
+        targetPort: {{ .Values.config.service.port }}
+        nodePort: {{ .Values.config.service.nodePort }}
+        name: http
+    selector:
+      app.kubernetes.io/name: {{ .Values.config.app.name }}
+      app.kubernetes.io/instance: {{ .Release.Name }}
+

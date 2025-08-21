@@ -1,0 +1,23 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: {{ include "redis-ha.fullname" . }}-monitor
+  namespace: {{ .Release.Namespace }}
+  labels:
+    release: prometheus               # CRÍTICO: coincide con el release de kube-prometheus-stack
+    app.kubernetes.io/name: {{ include "redis-ha.name" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+spec:
+  namespaceSelector:
+    matchNames:
+      - {{ .Release.Namespace }}      # (opcional, explícito)
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ include "redis-ha.name" . }}
+      app.kubernetes.io/instance: {{ .Release.Name }}
+  endpoints:
+    - port: metrics
+      interval: 15s
+      path: /metrics
+      scheme: http
+      honorLabels: true

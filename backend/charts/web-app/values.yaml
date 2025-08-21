@@ -1,0 +1,16 @@
+config:
+  namespace: default
+  replicaCount: 1
+  image:
+    repository: joctan04/pokedex-ui
+    tag: latest
+    pullPolicy: IfNotPresent
+  service:
+    port: 3000
+    type: NodePort
+    nodePort: 30000
+  app:
+    name: web-app
+    version: 1.0.0
+    environment: production
+    apiUrl: http://localhost:30500
